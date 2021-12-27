@@ -20,12 +20,9 @@ private:
 	static int kat31F7, kat31F8, kat31F9, kat31FA, kat31FB;
 
 	static const unsigned char chrcode[];
-//	void make_chrmap();
-
 public:
 	SearchPass(int, int, int, int, int);		// コンストラクタ
 
-	static bool calcCheckDigit(unsigned char *, unsigned char, unsigned char, unsigned char);
 	static bool checkPass(Word);
 
 };

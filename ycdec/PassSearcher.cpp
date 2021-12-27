@@ -44,36 +44,20 @@ void PassSearcher::SearchScheduler()
 	
 	for (unsigned int thid = 0; thid < THREADS_NUM; ++thid) {
 		cpr[thid].setDict(chrdic);
-//		cpr[thid].counters[0] = 'O' - 'A';	// O
+		// ‚±‚±‚Å‚Ì¶¬Žž‚ÉŠeŒ…‰Šúó‘Ô‚ð—^‚¦‚é
 //		cpr[thid].counters[1] = 'Y' - 'A';	// Y
 //		cpr[thid].counters[2] = 'A' - 'A';	// A
-//		cpr[thid].counters[3] = 'S' - 'A';	// S
-//		cpr[thid].counters[4] = 'U' - 'A';	// U
-//		cpr[thid].counters[5] = 'M' - 'A';	// M
-//		cpr[thid].counters[6] = 'I' - 'A';	// I
-//
-//		cpr[thid].counters[12] = 'E' - 'A';	// E	‚Ü‚Å‚Ý‚½
-//		cpr[thid].counters[13] = thid;
-//		cpr[thid].chkcol = 13;
-
-//		cpr[thid].counters[4] = thid;
-//		cpr[thid].chkcol = 4;
 
 		cpr[thid].counters[13] = thid;
 		cpr[thid].chkcol = 13;
-//		cpr[thid].setStartCol(7);
+
+//		cpr[thid].setStartCol(7);		// “r’†‚ÌŒ…‚©‚ç‚Ü‚í‚·
 		threads.push_back(thread(cpr[thid]));
 	}
 
 	for (thread& th : threads) {
 		th.join();
 	}
-}
-
-void PassSearcher::ThRangeSearch()
-{
-
-
 }
 
 
