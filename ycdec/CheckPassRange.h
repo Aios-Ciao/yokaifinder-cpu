@@ -48,34 +48,31 @@ public:
 
 			while (counters[chkcol] == chkkey) {
 
-				if (refresh_col != counters[refresh_col_n]) {
-					std::cout << "chk " << candidate << std::endl;
-					std::cerr << "chk " << candidate << std::endl;
-					refresh_col = counters[refresh_col_n];
-				}
-				for (int idx = 0; idx < COLUMNS; ++idx) {
-					candidate[idx] = dict[counters[idx]];
-				}
-
+#if !defined(PRUNING)
+//				if (refresh_col != counters[refresh_col_n]) {
+//					for (int idx = 0; idx < COLUMNS; ++idx) {
+//						candidate[idx] = dict[counters[idx]];
+//					}
+//					std::cout << "chk " << candidate << std::endl;
+//					std::cerr << "chk " << candidate << std::endl;
+//					refresh_col = counters[refresh_col_n];
+//				}
+#endif
 				// 最初の数桁はスレッドを起こさずループで一気にチェック
 				for (size_t col2 = 0; col2 < dictlen; ++col2) {
 					counters[countstart_col + 2] = col2;
-					candidate[countstart_col + 2] = dict[counters[countstart_col + 2]];
 
 					for (size_t col1 = 0; col1 < dictlen; ++col1) {
 						counters[countstart_col + 1] = col1;
-						candidate[countstart_col + 1] = dict[counters[countstart_col + 1]];
 
 						for (size_t col0 = 0; col0 < dictlen; ++col0) {
 							counters[countstart_col + 0] = col0;
-							candidate[countstart_col + 0] = dict[counters[countstart_col + 0]];
 
-							SearchPass::Word cd(candidate, COLUMNS);
-							if (SearchPass::checkPass(cd)) {
-								std::cout << "#hit! " << cd.str << std::endl;
-								std::cerr << "#hit! " << cd.str << std::endl;
-								std::this_thread::sleep_for(std::chrono::milliseconds(1));
+							for (int idx = 0; idx < COLUMNS; ++idx) {
+								candidate[idx] = dict[counters[idx]];
 							}
+							SearchPass::Word cd(candidate, COLUMNS);
+							SearchPass::checkPass(cd);
 						}
 					}
 				}

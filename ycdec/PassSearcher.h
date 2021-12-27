@@ -12,11 +12,7 @@ public:
 	// 65 94 0E AC E9 07 33 25
 	// chartable	ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!.-ﾅﾑｺ
 	PassSearcher(
-//		const char* chartable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!.-nmcﾅﾑｺ",
-//		const char* chartable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.-",
-		const char* chartable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-//		const char* chartable = "0123456789!.-",
-//		const char* chartable = "ABCDEFGHIJKMNOPRSTUWXYZ",
+		const char* chartable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!.-nmcﾅﾑｺ",
 		unsigned char atk31F4 = 0x65,		// チェックディジット
 		unsigned char atk31F5 = 0x94,
 		unsigned char atk31F6 = 0x0E,		// 桁数

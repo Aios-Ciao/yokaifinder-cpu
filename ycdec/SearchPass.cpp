@@ -76,6 +76,19 @@ bool SearchPass::checkPass(Word wd)
 		return (v & 0xFF);
 	};
 
+	auto bitcnt = [](unsigned long int v)
+	{
+#if !_HAS_CXX20
+		v = (v & 0x55555555) + (v >> 1 & 0x55555555);
+		v = (v & 0x33333333) + (v >> 2 & 0x33333333);
+		v = (v & 0x0f0f0f0f) + (v >> 4 & 0x0f0f0f0f);
+		v = (v & 0x00ff00ff) + (v >> 8 & 0x00ff00ff);
+		return  (v & 0x0000ffff) + (v >> 16 & 0x0000ffff);
+#else
+		return std::popcount(v);
+#endif
+	};
+
 	for (unsigned char chr : buffer) {
 		a = chr;
 		// calc checkdigit1
@@ -90,40 +103,47 @@ bool SearchPass::checkPass(Word wd)
 			}
 		}
 		// calc checkdigit2
+#if !defined(PRUNING)
 		c = (mem2[0] >= 0xE5) ? 1 : 0;
 		mem5[0] = adc(a, mem5[0]);
 		mem5[1] = adc(mem5[1], mem2[1]);
+#endif
 		// calc checkdigit3
 		mem5[2] ^= a;
 		// calc checkdigit4
+#if !defined(PRUNING)
 		{
 			unsigned char v = ror(mem5[3]);
 			mem5[3] = adc(v, a);
 		}
+#endif
 		// calc checkdigit5
-		mem5[4] += (unsigned char)(c + std::popcount(a));
+#if !defined(PRUNING)
+		mem5[4] += (unsigned char)(c + bitcnt(a));
+#endif
 	}
 
-	result = ( true
-//		&& (mem2[0] == kat31F4)
-//		&& (mem2[0] == kat31F5)
+	if (true
+		&& (mem2[0] == 0x65)
+		&& (mem2[1] == 0x94)
+#if !defined(PRUNING)
 		&& (mem5[0] == kat31F7)
 		&& (mem5[1] == kat31F8)
+#endif
 		&& (mem5[2] == kat31F9)
+#if !defined(PRUNING)
 		&& (mem5[3] == kat31FA)
 		&& (mem5[4] == kat31FB)
-		);
-	if ((mem2[0] == 0x65) && (mem2[1] == 0x94)) {
-		for (int idx = 0; idx < 14; ++idx) {
-			fprintf(stderr, "0x%02X ", chrcode[wd.str[idx]]);
-		}
-		fprintf(stderr, "\n");
+#endif
+		) {
 
-		fprintf(stderr, "chk %14s %02x %02x 0E %02x %02x %02x %02x %02x\n",
-			wd.str, mem2[0], mem2[1], mem5[0], mem5[1], mem5[2], mem5[3], mem5[4]);
-	}
-	if (result) {
+#if !defined(PRUNING)
+		std::cerr << "#hit! " << wd.str << std::endl;
+#else	// Ž}Š ‚è‚ÉŽc‚Á‚½Œó•â‚ð•\Ž¦‚·‚é
+		std::cerr << wd.str << std::endl;
+#endif
 		return (true);
 	}
+
 	return (false);
 }

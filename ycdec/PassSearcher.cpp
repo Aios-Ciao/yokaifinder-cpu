@@ -30,8 +30,8 @@ PassSearcher::PassSearcher(
 	// 使用しているPCが対応するスレッド数　12とか
 	nthread = thread::hardware_concurrency();
 
-	// 使用可能な文字をリストに変換
-	chrdic = std::string(chartable);
+	chrdic = std::string(chartable);	// 使用可能な文字をリストに変換
+
 
 }
 
@@ -39,19 +39,33 @@ PassSearcher::PassSearcher(
 //#define THREADS_NUM	(1)
 void PassSearcher::SearchScheduler()
 {
-	vector<CheckPassRange>	cpr(THREADS_NUM);
+	vector<CheckPassRange>	cpr;
 	vector<thread>	threads;
-	
+
+	cout << "Dict:" << chrdic << endl;
+	cerr << "Dict:" << chrdic << endl;
+
 	for (unsigned int thid = 0; thid < THREADS_NUM; ++thid) {
+		cpr.push_back(CheckPassRange());
 		cpr[thid].setDict(chrdic);
 		// ここでの生成時に各桁初期状態を与える
-//		cpr[thid].counters[1] = 'Y' - 'A';	// Y
-//		cpr[thid].counters[2] = 'A' - 'A';	// A
+//		cpr[thid].counters[0] = 'I' - 'A';
+//		cpr[thid].counters[1] = 'S' - 'A';
+//		cpr[thid].counters[2] = 'S' - 'A';
+//		cpr[thid].counters[3] = 'Y' - 'A';
+//		cpr[thid].counters[4] = 'Z' - 'A';
+//		cpr[thid].counters[5] = 'N' - 'A';
+//		cpr[thid].counters[6] = 'M' - 'A';
+//		cpr[thid].counters[7] = 35;// '9'
+//		cpr[thid].counters[8] = 'N' - 'A';
+//		cpr[thid].counters[9] = 'R' - 'A';
+//		cpr[thid].counters[10] = 'Z' - 'A';
+//		cpr[thid].counters[11] = 'Z' - 'A';
+//		cpr[thid].counters[12] = 'D' - 'A';
 
 		cpr[thid].counters[13] = thid;
 		cpr[thid].chkcol = 13;
 
-//		cpr[thid].setStartCol(7);		// 途中の桁からまわす
 		threads.push_back(thread(cpr[thid]));
 	}
 
