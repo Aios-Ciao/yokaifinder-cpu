@@ -138,9 +138,9 @@ bool SearchPass::checkPass(Word wd)
 		) {
 
 #if !defined(PRUNING)
-		std::cerr << "#hit! " << wd.str << std::endl;
+		std::cout << "#hit! " << wd.str << std::endl;
 #else	// Ž}Š ‚è‚ÉŽc‚Á‚½Œó•â‚ð•\Ž¦‚·‚é
-		std::cerr << wd.str << std::endl;
+		std::cout << wd.str << std::endl;
 #endif
 		return (true);
 	}

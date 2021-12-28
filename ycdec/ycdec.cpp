@@ -21,7 +21,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	if (argc != 1) {
-		std::cerr << "usage: ycdec.exe  with dict.txt on same folder." << endl;
+		cerr << "usage: ycdec.exe  with dict.txt on same folder." << endl;
 		return 0;
 	}
 
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 	ifstream ifs(fnDict);
 	if (ifs.fail()) {
-		cerr << "Fail open file " << fnDict << "." << endl;
+		cout << "Fail open file " << fnDict << "." << endl;
 		return 0;
 	}
 	string dict;
@@ -39,14 +39,14 @@ int main(int argc, char* argv[])
 	PassSearcher ps(dict.c_str());
 
 #if defined(PRUNING)
-	std::cerr << "Pruning by $31F4, $31F5, $31F9" << std::endl;
+	cout << "Pruning by $31F4, $31F5, $31F9" << endl;
 #else
-	std::cerr << "Full search" << std::endl;
+	cout << "Full search" << endl;
 #endif
 
 	ps.SearchScheduler();
 
-	std::cout << "Finished." << std::endl;
+	cout << "Finished." << endl;
 	(void)getchar();
 
 	return 0;

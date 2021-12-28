@@ -43,7 +43,6 @@ void PassSearcher::SearchScheduler()
 	vector<thread>	threads;
 
 	cout << "Dict:" << chrdic << endl;
-	cerr << "Dict:" << chrdic << endl;
 
 	for (unsigned int thid = 0; thid < THREADS_NUM; ++thid) {
 		cpr.push_back(CheckPassRange());
