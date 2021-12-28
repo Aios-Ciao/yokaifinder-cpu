@@ -97,9 +97,6 @@ SearchPass::SearchPass(int kF7, int kF8, int kF9, int kFA, int kFB)
 	kat31FA = kFA;
 	kat31FB = kFB;
 
-#if defined(XOR_VAR_TABLE)
-	create_lut();
-#endif  // XOR_VAR_TABLE
 }
 
 bool SearchPass::checkPass(Word wd)
@@ -219,8 +216,8 @@ bool SearchPass::checkPass(Word wd)
 	return (false);
 }
 
-#if defined(XOR_VAR_TABLE)
 void SearchPass::create_lut() {
+#if defined(XOR_VAR_TABLE)
 	for (int t31F5 = 0; t31F5 < 256; t31F5++) {
 		int A = 0;
 		int C = 0;
@@ -247,23 +244,22 @@ void SearchPass::create_lut() {
 		lut_xor31F5[t31F5] = a31F5 & 0xFF;
 	}
 #if defined(XORMAP_DUMP)
-	create_lut();
-	cout << "const unsigned char xor31F4[256] = {";
+	fprintf(stdout, "const unsigned char xor31F4[256] = {");
 	for (int y = 0; y < 16; ++y) {
-		fprintf(stdout, "\n");
+		fprintf(stdout, "\n\t");
 		for (int x = 0; x < 16; ++x) {
 			fprintf(stdout, "0x%02X,", lut_xor31F4[(y * 16) + x]);
 		}
 	}
-	cout << "\n};" << endl;
-	cout << "const unsigned char xor31F5[256] = {";
+	fprintf(stdout, "\n};\n");
+	fprintf(stdout, "const unsigned char xor31F5[256] = {");
 	for (int y = 0; y < 16; ++y) {
-		fprintf(stdout, "\n");
+		fprintf(stdout, "\n\t");
 		for (int x = 0; x < 16; ++x) {
 			fprintf(stdout, "0x%02X,", lut_xor31F5[(y * 16) + x]);
 		}
 	}
-	cout << "\n};" << endl;
+	fprintf(stdout, "\n};\n");
 #endif // XORMAP_DUMP
-}
 #endif	// XOR_VAR_TABLE
+}

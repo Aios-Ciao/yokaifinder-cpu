@@ -32,7 +32,7 @@ PassSearcher::PassSearcher(
 
 	chrdic = std::string(chartable);	// 使用可能な文字をリストに変換
 
-
+	SearchPass::create_lut();
 }
 
 #define THREADS_NUM	(chrdic.size())

@@ -35,7 +35,6 @@ int main(int argc, char* argv[])
 	string dict;
 	getline(ifs, dict);
 
-
 	PassSearcher ps(dict.c_str());
 
 #if defined(PRUNING)

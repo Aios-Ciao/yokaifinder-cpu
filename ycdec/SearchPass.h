@@ -1,6 +1,7 @@
 #pragma once
 
 #undef XOR_VAR_TABLE		// defineすると変数でテーブルをもつ
+#undef XORMAP_DUMP
 #include <map>
 class SearchPass {
 public:
@@ -29,9 +30,7 @@ private:
 public:
 	SearchPass(int, int, int, int, int);		// コンストラクタ
 
-#if defined(XOR_VAR_TABLE)
-	void create_lut();
-#endif  // XOR_VAR_TABLE
+	static void create_lut();
 	static bool checkPass(Word);
 
 };
