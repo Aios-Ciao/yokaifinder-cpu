@@ -1,5 +1,6 @@
 #pragma once
 
+#undef XOR_VAR_TABLE		// defineすると変数でテーブルをもつ
 #include <map>
 class SearchPass {
 public:
@@ -18,11 +19,19 @@ public:
 
 private:
 	static int kat31F7, kat31F8, kat31F9, kat31FA, kat31FB;
+#if defined(XOR_VAR_TABLE)
+	static unsigned char lut_xor31F4[256];
+	static unsigned char lut_xor31F5[256];
+#endif  // XOR_VAR_TABLE
+
 
 	static const unsigned char chrcode[];
 public:
 	SearchPass(int, int, int, int, int);		// コンストラクタ
 
+#if defined(XOR_VAR_TABLE)
+	void create_lut();
+#endif  // XOR_VAR_TABLE
 	static bool checkPass(Word);
 
 };
