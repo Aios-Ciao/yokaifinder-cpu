@@ -74,18 +74,44 @@ int main(int argc, char* argv[])
         cerr << "can't open file1 " << outfname << endl;
         return (-1);
     }
-    for (auto it : dic1) {
+    for (auto it = dic1.before_begin(); ;) {
+        auto nxo = next(it);
+        if (nxo == dic1.end()) {
+            break;
+        }
         for (auto trg = dic2.before_begin(); ;) {
-            auto nx = next(trg);
-            if (nx == dic2.end()) {
+            auto nxt = next(trg);
+            if (nxt == dic2.end()) {
                 break;
             }
-            if (std::equal(begin(it), end(it), nx->begin(), nx->end())) {
-                ofs << it << endl;
+
+            if (nxo == dic1.end()) break;
+            if (*nxo == *nxt) {
+                ofs << *it << endl;
                 trg = dic2.erase_after(trg);
+                nxo = next(it);
+                if (nxo == dic1.end()) {
+                    break;
+                }
+                ++it;
             }
             else {
-                ++trg;
+                if (*nxo < *nxt) {
+                    while (*nxo < *nxt) {
+                        nxo = next(it);
+                        if (nxo == dic1.end()) {
+                            break;
+                        }
+                        ++it;
+                        nxo = next(it);
+                        if (nxo == dic1.end()) {
+                            break;
+                        }
+                    }
+                }
+                else {
+                    ++trg;
+                }
             }
         }
     }
